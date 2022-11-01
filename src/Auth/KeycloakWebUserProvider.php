@@ -22,11 +22,11 @@ class KeycloakWebUserProvider implements UserProvider
 
     /**
      * The user creator class path
-     * @var string|null
+     * @var string
      */
     protected string $userCreator;
 
-    public function __construct(string $model, string $primaryKey, string $userCreator = null)
+    public function __construct(string $model, string $primaryKey, string $userCreator)
     {
         $this->model = $model;
         $this->primaryKey = $primaryKey;
@@ -47,8 +47,10 @@ class KeycloakWebUserProvider implements UserProvider
 
         $class = '\\' . ltrim($this->model, '\\');
 
-        return $class::where([$this->primaryKey => $credentials[$this->primaryKey]])
-            ->firstOr($this->createUser($credentials));
+        return $class::where($this->primaryKey, $credentials[$this->primaryKey])
+            ->firstOr(function () use ($credentials) {
+                return $this->createUser($credentials);
+            });
     }
 
     /**

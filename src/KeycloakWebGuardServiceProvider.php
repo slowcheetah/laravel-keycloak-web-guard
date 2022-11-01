@@ -36,7 +36,7 @@ class KeycloakWebGuardServiceProvider extends ServiceProvider
             return new KeycloakWebUserProvider(
                 $config['model'],
                 $config['primaryKey'],
-                $config['userCreator'] ?? null
+                $config['userCreator']
             );
         });
 
