@@ -127,14 +127,14 @@ And change your provider config too:
 'providers' => [
     'users' => [
         'driver' => 'keycloak-users',
-        'model' => Vizir\KeycloakWebGuard\Models\KeycloakUser::class,
+        'model' => App\User::class,
+        'primaryKey' => 'email',  // field from keycloak and User model for searching
+        'userCreator' => App\KeyCloak\UserCreator::class,  // remove this line if you don't want to create new users
     ],
 
     // ...
 ]
 ```
-
-**Note:** if you want use another User Model, check the FAQ *How to implement my Model?*.
 
 ## API
 

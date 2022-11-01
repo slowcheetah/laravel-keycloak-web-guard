@@ -33,7 +33,11 @@ class KeycloakWebGuardServiceProvider extends ServiceProvider
 
         // User Provider
         Auth::provider('keycloak-users', function($app, array $config) {
-            return new KeycloakWebUserProvider($config['model']);
+            return new KeycloakWebUserProvider(
+                $config['model'],
+                $config['primaryKey'],
+                $config['userCreator'] ?? null
+            );
         });
 
         // Gate
