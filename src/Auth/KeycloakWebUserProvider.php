@@ -14,10 +14,17 @@ class KeycloakWebUserProvider implements UserProvider
     protected string $model;
 
     /**
-     * The user model primary key
+     * User model search field
+     *
      * @var string
      */
-    protected string $primaryKey;
+    protected string $userSearchField;
+
+    /**
+     * Key cloak user id field
+     * @var string
+     */
+    protected string $keyCloakSearchField;
 
     /**
      * The user creator class path
@@ -31,10 +38,16 @@ class KeycloakWebUserProvider implements UserProvider
      */
     protected string $syncUser;
 
-    public function __construct(string $model, string $primaryKey, string $userCreator, string $syncUser)
-    {
+    public function __construct(
+        string $model,
+        string $userSearchField,
+        string $keyCloakSearchField,
+        string $userCreator,
+        string $syncUser
+    ) {
         $this->model = $model;
-        $this->primaryKey = $primaryKey;
+        $this->userSearchField = $userSearchField;
+        $this->keyCloakSearchField = $keyCloakSearchField;
         $this->userCreator = $userCreator;
         $this->syncUser = $syncUser;
     }
@@ -108,7 +121,7 @@ class KeycloakWebUserProvider implements UserProvider
 
     private function validateCredentialsData(array $credentials): bool
     {
-        return isset($credentials[$this->primaryKey]);
+        return isset($credentials[$this->keyCloakSearchField]);
     }
 
     private function createUser(array $credentials): ?Authenticatable
@@ -124,7 +137,7 @@ class KeycloakWebUserProvider implements UserProvider
     {
         $class = '\\' . ltrim($this->model, '\\');
 
-        return $class::where($this->primaryKey, $credentials[$this->primaryKey])
+        return $class::where($this->userSearchField, $credentials[$this->keyCloakSearchField])
             ->firstOr(function () use ($credentials) {
                 return $this->createUser($credentials);
             });

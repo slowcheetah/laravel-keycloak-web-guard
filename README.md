@@ -128,7 +128,8 @@ And change your provider config too:
     'users' => [
         'driver' => 'keycloak-users',
         'model' => App\User::class,
-        'primaryKey' => 'email',  // field in keycloak response and User model for searching
+        'modelSearchField' => 'email',  // field in User model for searching
+        'keyCloakSearchField' => 'id',
         'userCreator' => App\KeyCloak\UserCreator::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\CreateUserInterface
         'syncUser' => App\KeyCloak\SyncUser::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\SyncUserInterface
     ],

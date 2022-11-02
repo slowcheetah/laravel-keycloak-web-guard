@@ -13,7 +13,6 @@ use Vizir\KeycloakWebGuard\Auth\Guard\KeycloakWebGuard;
 use Vizir\KeycloakWebGuard\Auth\KeycloakWebUserProvider;
 use Vizir\KeycloakWebGuard\Middleware\KeycloakAuthenticated;
 use Vizir\KeycloakWebGuard\Middleware\KeycloakCan;
-use Vizir\KeycloakWebGuard\Models\KeycloakUser;
 use Vizir\KeycloakWebGuard\Services\KeycloakService;
 
 class KeycloakWebGuardServiceProvider extends ServiceProvider
@@ -35,7 +34,8 @@ class KeycloakWebGuardServiceProvider extends ServiceProvider
         Auth::provider('keycloak-users', function($app, array $config) {
             return new KeycloakWebUserProvider(
                 $config['model'],
-                $config['primaryKey'],
+                $config['modelSearchField'],
+                $config['keyCloakSearchField'],
                 $config['userCreator'],
                 $config['syncUser'],
             );
