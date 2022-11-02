@@ -4,7 +4,6 @@ namespace Vizir\KeycloakWebGuard\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-use Vizir\KeycloakWebGuard\Contracts\CreateUserInterface;
 
 class KeycloakWebUserProvider implements UserProvider
 {
@@ -26,11 +25,18 @@ class KeycloakWebUserProvider implements UserProvider
      */
     protected string $userCreator;
 
-    public function __construct(string $model, string $primaryKey, string $userCreator)
+    /**
+     * The user sync class path
+     * @var string
+     */
+    protected string $syncUser;
+
+    public function __construct(string $model, string $primaryKey, string $userCreator, string $syncUser)
     {
         $this->model = $model;
         $this->primaryKey = $primaryKey;
         $this->userCreator = $userCreator;
+        $this->syncUser = $syncUser;
     }
 
     /**
@@ -45,12 +51,12 @@ class KeycloakWebUserProvider implements UserProvider
             return null;
         }
 
-        $class = '\\' . ltrim($this->model, '\\');
+        $user = $this->getUser($credentials);
+        if (!$user) {
+            return null;
+        }
 
-        return $class::where($this->primaryKey, $credentials[$this->primaryKey])
-            ->firstOr(function () use ($credentials) {
-                return $this->createUser($credentials);
-            });
+        return $this->syncUser($user, $credentials);
     }
 
     /**
@@ -107,17 +113,29 @@ class KeycloakWebUserProvider implements UserProvider
 
     private function createUser(array $credentials): ?Authenticatable
     {
-        if (!$this->userCreator) {
-            return null;
-        }
-
         /** @var Object $userCreatorClass */
         $userCreatorClass = '\\' . ltrim($this->userCreator, '\\');
         $userCreator = new $userCreatorClass();
-        if (!($userCreator instanceof CreateUserInterface)) {
-            return null;
-        }
 
         return $userCreator::createUser($credentials);
+    }
+
+    private function getUser(array $credentials): ?Authenticatable
+    {
+        $class = '\\' . ltrim($this->model, '\\');
+
+        return $class::where($this->primaryKey, $credentials[$this->primaryKey])
+            ->firstOr(function () use ($credentials) {
+                return $this->createUser($credentials);
+            });
+    }
+
+    private function syncUser(Authenticatable $user, array $credentials): Authenticatable
+    {
+        /** @var Object $userCreatorClass */
+        $syncUserClass = '\\' . ltrim($this->syncUser, '\\');
+        $syncUser = new $syncUserClass();
+
+        return $syncUser->sync($user, $credentials);
     }
 }

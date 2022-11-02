@@ -130,6 +130,7 @@ And change your provider config too:
         'model' => App\User::class,
         'primaryKey' => 'email',  // field in keycloak response and User model for searching
         'userCreator' => App\KeyCloak\UserCreator::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\CreateUserInterface
+        'syncUser' => App\KeyCloak\SyncUser::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\SyncUserInterface
     ],
 
     // ...
