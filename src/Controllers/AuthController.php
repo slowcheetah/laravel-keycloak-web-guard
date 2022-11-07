@@ -1,12 +1,12 @@
 <?php
 
-namespace Vizir\KeycloakWebGuard\Controllers;
+namespace SlowCheetah\KeycloakWebGuard\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Vizir\KeycloakWebGuard\Exceptions\KeycloakCallbackException;
-use Vizir\KeycloakWebGuard\Facades\KeycloakWeb;
+use SlowCheetah\KeycloakWebGuard\Exceptions\KeycloakCallbackException;
+use SlowCheetah\KeycloakWebGuard\Facades\KeycloakWeb;
 
 class AuthController extends Controller
 {
@@ -17,6 +17,10 @@ class AuthController extends Controller
      */
     public function login()
     {
+        $referer = request()->headers->get('referer');
+        if ($referer) {
+            redirect()->setIntendedUrl($referer);
+        }
         $url = KeycloakWeb::getLoginUrl();
         KeycloakWeb::saveState();
 

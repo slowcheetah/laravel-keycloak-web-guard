@@ -1,6 +1,6 @@
 <?php
 
-namespace Vizir\KeycloakWebGuard\Auth;
+namespace SlowCheetah\KeycloakWebGuard\Auth;
 
 use Exception;
 

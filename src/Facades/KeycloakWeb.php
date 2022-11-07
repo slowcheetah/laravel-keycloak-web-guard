@@ -1,6 +1,6 @@
 <?php
 
-namespace Vizir\KeycloakWebGuard\Facades;
+namespace SlowCheetah\KeycloakWebGuard\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
