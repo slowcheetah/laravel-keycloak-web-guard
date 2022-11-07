@@ -1,8 +1,3 @@
-<p align="center">
-    <img src="https://img.shields.io/packagist/v/vizir/laravel-keycloak-web-guard.svg" />
-    <img src="https://img.shields.io/packagist/dt/vizir/laravel-keycloak-web-guard.svg" />
-</p>
-
 Fork of [https://github.com/mariovalney/laravel-keycloak-web-guard](https://github.com/mariovalney/laravel-keycloak-web-guard)
 
 # Keycloak Web Guard for Laravel
