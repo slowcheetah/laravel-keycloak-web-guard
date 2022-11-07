@@ -203,16 +203,6 @@ You can extend it and register your own middleware on Kernel.php or just use `Au
 
 ## FAQ
 
-### How to implement my Model?
-
-We registered a new user provider that you configured on `config/auth.php` called "keycloak-users".
-
-In this same configuration you setted the model. So you can register your own model extending `SlowCheetah\KeycloakWebGuard\Models\KeycloakUser` class and changing this configuration.
-
-You can implement your own [User Provider](https://laravel.com/docs/5.8/authentication#adding-custom-user-providers): just remember to implement the `retrieveByCredentials` method receiving the Keycloak Profile information to retrieve a instance of model.
-
-Eloquent/Database User Provider should work well as they will parse the Keycloak Profile and make a "where" to your database. So your user data must match with Keycloak Profile.
-
 ### I cannot find my login form.
 
 We register a `login` route to redirect to Keycloak Server. After login we'll receive and proccess the token to authenticate your user.
