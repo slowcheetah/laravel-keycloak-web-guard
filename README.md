@@ -3,6 +3,8 @@
     <img src="https://img.shields.io/packagist/dt/vizir/laravel-keycloak-web-guard.svg" />
 </p>
 
+Fork of [https://github.com/mariovalney/laravel-keycloak-web-guard](https://github.com/mariovalney/laravel-keycloak-web-guard)
+
 # Keycloak Web Guard for Laravel
 
 This packages allow you authenticate users with [Keycloak Server](https://www.keycloak.org).
@@ -19,7 +21,7 @@ It works on front. For APIs we recommend [laravel-keycloak-guard](https://github
 This package was tested with:
 
 * Laravel: 5.8 / 7 / 8 / 9
-* Keycloak: 18.0.0
+* Keycloak: 11.0.3 / 18.0.0
 
 Any other version is not guaranteed to work.
 
@@ -45,7 +47,7 @@ composer require vizir/laravel-keycloak-web-guard
 If you want to change routes or the default values for Keycloak, publish the config file:
 
 ```
-php artisan vendor:publish  --provider="Vizir\KeycloakWebGuard\KeycloakWebGuardServiceProvider"
+php artisan vendor:publish  --provider="SlowCheetah\KeycloakWebGuard\KeycloakWebGuardServiceProvider"
 
 ```
 
@@ -130,8 +132,8 @@ And change your provider config too:
         'model' => App\User::class,
         'modelSearchField' => 'email',  // field in User model for searching
         'keyCloakSearchField' => 'id',
-        'userCreator' => App\KeyCloak\UserCreator::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\CreateUserInterface
-        'syncUser' => App\KeyCloak\SyncUser::class,  // class mast implement Vizir\KeycloakWebGuard\Contracts\SyncUserInterface
+        'userCreator' => App\KeyCloak\UserCreator::class,  // class mast implement SlowCheetah\KeycloakWebGuard\Contracts\CreateUserInterface
+        'syncUser' => App\KeyCloak\SyncUser::class,  // class mast implement SlowCheetah\KeycloakWebGuard\Contracts\SyncUserInterface
     ],
 
     // ...
@@ -205,7 +207,7 @@ You can extend it and register your own middleware on Kernel.php or just use `Au
 
 We registered a new user provider that you configured on `config/auth.php` called "keycloak-users".
 
-In this same configuration you setted the model. So you can register your own model extending `Vizir\KeycloakWebGuard\Models\KeycloakUser` class and changing this configuration.
+In this same configuration you setted the model. So you can register your own model extending `SlowCheetah\KeycloakWebGuard\Models\KeycloakUser` class and changing this configuration.
 
 You can implement your own [User Provider](https://laravel.com/docs/5.8/authentication#adding-custom-user-providers): just remember to implement the `retrieveByCredentials` method receiving the Keycloak Profile information to retrieve a instance of model.
 

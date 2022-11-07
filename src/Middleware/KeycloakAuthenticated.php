@@ -1,6 +1,6 @@
 <?php
 
-namespace Vizir\KeycloakWebGuard\Middleware;
+namespace SlowCheetah\KeycloakWebGuard\Middleware;
 
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate;

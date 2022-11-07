@@ -1,6 +1,6 @@
 <?php
 
-namespace Vizir\KeycloakWebGuard\Contracts;
+namespace SlowCheetah\KeycloakWebGuard\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
